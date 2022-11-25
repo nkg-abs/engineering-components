@@ -1,11 +1,26 @@
-import config from './config';
-import { rndString } from '@laufire/utils/random';
-
-const refreshIDLength = 4;
-
 const seed = {
-	count: config.countStart,
-	refreshID: rndString(refreshIDLength),
+	boxes: [
+		{
+			id: 0,
+			shortcuts: {
+				'ctrl+y': 'create',
+				'ctrl+j': 'remove',
+				'ctrl+d': 'toggle',
+			},
+			content: 'parent',
+			bubble: false,
+		},
+		{
+			id: 1,
+			shortcuts: {
+				'ctrl+y': 'create',
+				'ctrl+j': 'remove',
+				'ctrl+d': 'toggle',
+			},
+			content: 'child',
+			bubble: false,
+		},
+	],
 };
 
 export default seed;
