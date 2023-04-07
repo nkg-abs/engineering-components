@@ -7,7 +7,7 @@ import { peek } from '@laufire/utils/debug';
 const Box = (context) => {
 	const { data: [currentBox, ...remainingBoxes], actions } = context;
 	const { length } = remainingBoxes;
-	const { shortcuts } = currentBox;
+	const { shortcuts, style } = currentBox;
 	const boxRef = useRef(null);
 
 	useEffect(() => {
@@ -20,7 +20,7 @@ const Box = (context) => {
 		remainingBoxes.length === 0 && boxRef.current.focus();
 	}, [boxRef.current]);
 
-	return <div ref={ boxRef } tabIndex="-1" className="box">
+	return <div ref={ boxRef } tabIndex="-1" style={ style } className="box">
 		<input type="number"/>
 		{	remainingBoxes.length
 			? <Box key={ length }{ ...{ ...context, data: remainingBoxes } }/>

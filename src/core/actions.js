@@ -1,6 +1,10 @@
+import { peek } from '@laufire/utils/debug';
+
 /* eslint-disable no-magic-numbers */
 const updateStyle = (context) => {
 	const { state: { boxes }, data: { id }} = context;
+
+	peek(id);
 
 	return {
 		boxes: [
