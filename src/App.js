@@ -1,60 +1,30 @@
-/* eslint-disable max-lines-per-function */
-/* eslint-disable max-len */
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef } from 'react';
 import Mousetrap from 'mousetrap';
 import './App.scss';
 import { map } from '@laufire/utils/collection';
 import { peek } from '@laufire/utils/debug';
 
-const handlers = {
-	create: (context) => {
-		const { actions } = context;
-
-		actions.addChild();
-
-		return false;
-	},
-	remove: (context) => {
-		const { actions, data: { id }} = context;
-
-		actions.toggleGreen(id);
-
-		return false;
-	},
-	toggle: (context) => {
-		const { actions, data: { id }} = context;
-
-		actions.updateStyle(id);
-
-		return false;
-	},
-};
-
 const Box = (context) => {
-	const { data: [currentBox, ...remainingBoxes] } = context;
-
+	const { data: [currentBox, ...remainingBoxes], actions } = context;
+	const { length } = remainingBoxes;
+	const { shortcuts } = currentBox;
 	const boxRef = useRef(null);
-	const { shortcuts, style } = currentBox;
 
 	useEffect(() => {
-		map(shortcuts, (handler, shortcut) =>
+		map(shortcuts, (action, shortcut) =>
 			new Mousetrap(peek(boxRef).current).bind(shortcut, () => {
-				peek(shortcut);
-				handlers[handler]({ ...context, data: currentBox });
+				actions[action](currentBox);
 				return false;
 			}));
 
 		remainingBoxes.length === 0 && boxRef.current.focus();
 	}, [boxRef.current]);
 
-	return <div ref={ boxRef } tabIndex="-1" style={ style } className="box">
+	return <div ref={ boxRef } tabIndex="-1" className="box">
 		<input type="number"/>
-		{
-			remainingBoxes.length
-				? <Box key={ remainingBoxes.length }{ ...{ ...context, data: remainingBoxes } }/>
-				: null
-		}
+		{	remainingBoxes.length
+			? <Box key={ length }{ ...{ ...context, data: remainingBoxes } }/>
+			: null	}
 	</div>;
 };
 

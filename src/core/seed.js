@@ -1,25 +1,19 @@
+import { range } from '@laufire/utils/collection';
+import config from './config';
+
+const boxData = {
+	shortcuts: config.shortcuts,
+	content: 'parent',
+	bubble: false,
+};
+
 const seed = {
 	boxes: [
-		{
-			id: 0,
-			shortcuts: {
-				'ctrl+y': 'create',
-				'ctrl+j': 'remove',
-				'ctrl+d': 'toggle',
-			},
-			content: 'parent',
-			bubble: false,
-		},
-		{
-			id: 1,
-			shortcuts: {
-				'ctrl+y': 'create',
-				'ctrl+j': 'remove',
-				'ctrl+d': 'toggle',
-			},
-			content: 'child',
-			bubble: false,
-		},
+		// eslint-disable-next-line no-magic-numbers
+		...range(0, 2).map((id) => ({
+			id,
+			...boxData,
+		})),
 	],
 };
 
